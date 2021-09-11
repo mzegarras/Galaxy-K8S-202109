@@ -15,7 +15,7 @@ services:
   db01:
     image: mysql:5.7
     restart: always 
-    #container_name: db02
+    #container_name: db01
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
