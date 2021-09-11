@@ -96,8 +96,9 @@
     docker-compose up -d
 
     docker-compose logs
+    docker-compose logs <<id-service>>
     docker-compose ps
-
+    docker-compose ps <<id-service>>
 
     docker-compose down
     docker-compose up -d
