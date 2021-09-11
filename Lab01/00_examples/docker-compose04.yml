@@ -9,6 +9,7 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: "pwd123456!"
       ME_CONFIG_MONGODB_SERVER: mongo01
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: interfaces
     depends_on:
       - mongo   
   mongo:
