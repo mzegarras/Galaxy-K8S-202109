@@ -96,15 +96,18 @@
     docker-compose up -d
 
     docker-compose logs
-    docker-compose logs <<id-service>>
+    docker-compose logs name-service
     docker-compose ps
-    docker-compose ps <<id-service>>
+    docker-compose ps name-service
 
     docker-compose down
     docker-compose up -d
 
 
     docker-compose -f docker-compose-00.yaml up -d
+
+    docker-compose build
+    docker-compose build name-service
 
     ```
 
@@ -166,8 +169,6 @@
     services:
       db01:
         image: mysql:5.7
-        volumes:
-          - db_data:/var/lib/mysql
         restart: always 
         environment:
           MYSQL_ROOT_PASSWORD: somewordpress
@@ -186,8 +187,6 @@
           WORDPRESS_DB_USER: wordpress
           WORDPRESS_DB_PASSWORD: wordpress
           WORDPRESS_DB_NAME: wordpress
-    volumes:
-        db_data: {}
     ``` 
 
 

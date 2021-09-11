@@ -7,3 +7,10 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 8081:80
+  website02:
+    image: "web01:latest"
+    build:
+      context: angular/
+      dockerfile: ./Dockerfile
+    ports:
+      - 8081:80      
