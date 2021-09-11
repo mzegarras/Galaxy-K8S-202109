@@ -1,13 +1,5 @@
 version: '3.8'
 services:
-  db01:
-    image: mysql:5.7
-    restart: always 
-    environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
   wordpress:
     image: wordpress:latest
     ports:
@@ -19,4 +11,13 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
     depends_on:
-      - db01      
+      - db01
+  db01:
+    image: mysql:5.7
+    restart: always 
+    #container_name: db02
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress      
