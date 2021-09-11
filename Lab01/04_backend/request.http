@@ -1,12 +1,12 @@
 
 ### GET programs
 
-GET http://localhost:8080/programs HTTP/1.1
+GET http://34.219.10.144:8080/programs HTTP/1.1
 ### GET programs
-GET http://localhost:8080/programs HTTP/1.1
+GET http://34.219.10.144:8080/programs HTTP/1.1
 
 ### Create program
-POST http://localhost:8080/programs HTTP/1.1
+POST http://34.219.10.144:8080/programs HTTP/1.1
 content-type: application/json
 
 {

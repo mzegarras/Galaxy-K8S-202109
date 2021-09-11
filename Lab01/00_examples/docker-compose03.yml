@@ -18,4 +18,4 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: "pwd123456!"
-      MONGO_INITDB_DATABASE: interfaces
+      #MONGO_INITDB_DATABASE: interfaces
