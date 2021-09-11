@@ -35,3 +35,5 @@
 
 ### Preguntas:
 
+* Docker-compose con multiples archivos
+* Docker compose mongo y mongo-express
