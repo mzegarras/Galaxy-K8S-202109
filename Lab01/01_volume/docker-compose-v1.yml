@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  app:
+    image: nginx:alpine
+    ports:
+      - 9080:80
+      #- 8085:81
+      #- 8086:83
+    volumes:
+      - "./html:/usr/share/nginx/html:ro"
+  app02:
+    image: nginx:mainline
+    ports:
+      - 9081:80    
+    volumes:
+      - "./html:/usr/share/nginx/html:ro"
