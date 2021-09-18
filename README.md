@@ -37,3 +37,4 @@
 
 * Docker-compose con multiples archivos
 * Docker compose mongo y mongo-express
+* Habilitar health check and probe en containers
