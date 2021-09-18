@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: customerapi
+  labels:
+    app: customerapi
+spec:
+  ports:
+    - port: 8080
+      targetPort: 80
+      name: http-api
+  selector:
+     app: customerapi
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customerapi
+spec:
+  selector:
+    matchLabels:
+      app: customerapi
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: customerapi
+    spec:
+      containers:
+        - name: customerapi
+          image: mzegarra/customercoreapi:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - name: tcp-api
+              containerPort: 80
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          readinessProbe:
+             httpGet:
+               path: /health
+               port: 80
+             initialDelaySeconds: 10
+             periodSeconds: 10
+             timeoutSeconds: 10
+             successThreshold: 1
+             failureThreshold: 3
+          livenessProbe:
+             httpGet:
+               path: /health
+               port: 80
+             initialDelaySeconds: 10
+             periodSeconds: 10
+             timeoutSeconds: 10
+             successThreshold: 1
+             failureThreshold: 3
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/appsettings.json
+              subPath: appsettings.json      
+      volumes:
+      - name: config-volume
+        configMap:
+          name: customer-config

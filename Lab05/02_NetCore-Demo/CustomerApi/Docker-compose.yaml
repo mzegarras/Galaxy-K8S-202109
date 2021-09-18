@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  customercoreapi:
+    image: "mzegarra/customercoreapi:1.0.0"
+    container_name: customercoreapi
+    build:
+      context: .
+      dockerfile: ./devops/Dockerfile
+    ports:
+      - 8080:80
+    volumes: 
+      - ./appsettings.json:/app/appsettings.json
+      - ./appsettings.Development.json:/app/appsettings.Development.json
+    depends_on: 
+      mongo:
+        condition: service_healthy
+      bus:
+        condition: service_healthy
+    environment: 
+      ASPNETCORE_ENVIRONMENT: ""
+      #ASPNETCORE_ENVIRONMENT: "Development"
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "pwd123456"
+      MONGO_INITDB_DATABASE: shop
+    healthcheck:
+      test: mongo --eval db.adminCommand\(\"ping\"\)
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "pwd123456"
+  bus:
+    image: rabbitmq:management-alpine
+    container_name: bus
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - ./devops/bus/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./devops/bus/rabbitmq_definitions.json:/etc/rabbitmq/rabbitmq_definitions.json:ro    

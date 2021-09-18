@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: api1
+spec:
+  containers:
+    - name: api1
+      image: mzegarra/msclientes:0.0.1
+      ports:
+        - name: api1
+          containerPort: 8080
+          protocol: TCP

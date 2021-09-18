@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web02
+spec:
+  selector:
+    matchLabels:
+      app: web02
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate 
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: web02
+    spec:
+      containers:
+        - name: web02
+          image: mzegarra/lpsa:1.0
+          imagePullPolicy: Always
+          ports:
+            - name: http-api
+              containerPort: 80
+
+
+
+              
+#revisionHistoryLimit: Indicamos cuántos ReplicaSets antiguos deseamos conservar, para poder realizar rollback a estados anteriores. Por defecto, es 10.
+#strategy: Indica el modo en que se realiza una actualización del Deployment: 
+    #Recreate: elimina los Pods antiguos y crea los nuevos; 
+    #RollingUpdate: actualiza los Pods a la nueva versión.

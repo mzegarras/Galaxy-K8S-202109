@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqlservice
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql01
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldeployment
+spec:
+  selector:
+    matchLabels:
+      app: mysql01
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql01
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: root_password
+        - name: MYSQL_DATABASE
+          value: appdb
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql_user
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql_user_pwd                
+        ports:
+        - containerPort: 3306
+          name: mysql

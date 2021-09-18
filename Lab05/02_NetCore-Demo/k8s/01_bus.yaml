@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bus
+  labels:
+    app: bus
+spec:
+  ports:
+    - port: 5672
+      targetPort: 5672
+      name: tcp
+    - port: 15672
+      targetPort: 15672      
+      name: http-admin
+  selector:
+     app: bus
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bus
+spec:
+  selector:
+    matchLabels:
+      app: bus
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bus
+    spec:
+      containers:
+        - name: bus
+          image: rabbitmq:management-alpine
+          imagePullPolicy: Always
+          ports:
+            - name: tcp-api
+              containerPort: 5672
+            - name: http-management
+              containerPort: 15672
+          resources:
+            limits:
+              cpu: 350m
+              memory: 384Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          livenessProbe:
+            exec:
+              command:
+              - rabbitmq-diagnostics
+              - -q
+              - ping
+            failureThreshold: 3
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 30                       
+          readinessProbe:
+            exec:
+              command:
+              - rabbitmq-diagnostics
+              - -q
+              - ping
+            failureThreshold: 3
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 30
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/rabbitmq/rabbitmq.conf
+              subPath: rabbitmq.conf
+            - name: config-volume
+              mountPath: /etc/rabbitmq/rabbitmq_definitions.json
+              subPath: rabbitmq_definitions.json         
+      volumes:
+      - name: config-volume
+        configMap:
+          name: rabbitmq-config

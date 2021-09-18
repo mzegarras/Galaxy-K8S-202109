@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqldb
+  labels:
+    app: mysqldb
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      name: tcp
+  selector:
+     app: mysqldb
+  type: ClusterIP  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb
+spec:
+  selector:
+    matchLabels:
+      app: mysqldb
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysqldb
+    spec:
+      containers:
+        - name: mysqldb
+          image: mysql:5.7
+          imagePullPolicy: Always
+          ports:
+            - name: tcp-api
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root_password
+            - name: MYSQL_DATABASE
+              value: drupal
+            - name: MYSQL_USER
+              value: drupal_user
+            - name: MYSQL_PASSWORD
+              value: drupal_database_password
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "-uroot", "-p$MYSQL_ROOT_PASSWORD", "ping"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "-uroot", "-p$MYSQL_ROOT_PASSWORD", "ping"]
+            initialDelaySeconds: 20
+            periodSeconds: 2
+            timeoutSeconds: 1                                    
