@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: configserver-settings-bad
+data:
+    GIT_URI: "https://github.com/mzegarras/tci-config-dev.git"
+    KEYSTORE_ALIAS: "YOU_CONFIG_SERVER_KEY"
+    KEYSTORE_PWD: "YOU_KEYSTORE_PASSWORD"
+    KEYSTORE_SECRET: "YOU_KEYSTORE_PASSWORD"

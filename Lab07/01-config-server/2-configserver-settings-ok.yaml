@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configserver-settings
+  labels:
+      app.kubernetes.io/name: configserver-settings
+      app.kubernetes.io/instance: configserver-settings
+      app.kubernetes.io/version: "1.0.0"
+      app.kubernetes.io/component: config
+      app.kubernetes.io/part-of: configserver
+      app.kubernetes.io/managed-by: helm     
+data:
+    GIT_URI: "https://github.com/mzegarras/tci-config-dev.git"
+    KEYSTORE_ALIAS: "YOU_CONFIG_SERVER_KEY"
+    #KEYSTORE_PWD: "YOU_KEYSTORE_PASSWORD"
+    #KEYSTORE_SECRET: "YOU_KEYSTORE_PASSWORD"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: configserver-jks
+  labels:
+      app.kubernetes.io/name: configserver-jks
+      app.kubernetes.io/instance: configserver-jks
+      app.kubernetes.io/version: "1.0.0"
+      app.kubernetes.io/component: config
+      app.kubernetes.io/part-of: configserver
+      app.kubernetes.io/managed-by: helm     
+type: Opaque
+data:
+    KEYSTORE_PWD: "WU9VX0tFWVNUT1JFX1BBU1NXT1JE"
+    KEYSTORE_SECRET: "WU9VX0tFWVNUT1JFX1BBU1NXT1JE"
