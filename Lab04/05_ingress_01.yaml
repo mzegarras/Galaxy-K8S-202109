@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress01
+  # annotations:
+  #   kubernetes.io/ingress.class: gce
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /accounts/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: lab06apictaaho
+            port:
+              number: 7070

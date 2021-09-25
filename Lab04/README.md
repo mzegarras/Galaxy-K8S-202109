@@ -160,6 +160,23 @@
     #Retroceder a una Revisión específica
     kubectl rollout undo deployment/web02 --to-revision=2
     ```        
+1. DNS
+    ```bash
+
+    kubectl apply -f 03_mongo.yaml
+
+
+    kubectl run my-shell -i --tty --image ubuntu -- bash
+    apt-get update -y
+    apt-get install -y curl
+    apt-get install -y iputils-ping
+    apt-get install -y dnsutils
+    apt-get install -y tcpdump
+    apt-get install -y traceroute
+
+    nslookup mongodb
+    cat /etc/resolv.conf
+    ```
 
 1. Expose service
     ```bash
@@ -195,6 +212,12 @@
     
     kubectl delete pods -l app=web01
     ```
+
+1. Ingress
+
+kubectl apply -f 05_lab06MockCtaAho.yaml
+kubectl apply -f 05_ingress_01.yaml
+
 
 1. Labels
     ```bash
