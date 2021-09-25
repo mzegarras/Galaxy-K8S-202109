@@ -49,15 +49,3 @@ spec:
               value: drupal_user
             - name: MYSQL_PASSWORD
               value: drupal_database_password
-          livenessProbe:
-            exec:
-              command: ["mysqladmin", "-uroot", "-p$MYSQL_ROOT_PASSWORD", "ping"]
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            timeoutSeconds: 5
-          readinessProbe:
-            exec:
-              command: ["mysqladmin", "-uroot", "-p$MYSQL_ROOT_PASSWORD", "ping"]
-            initialDelaySeconds: 20
-            periodSeconds: 2
-            timeoutSeconds: 1                                    
