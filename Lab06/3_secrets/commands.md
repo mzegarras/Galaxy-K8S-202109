@@ -8,7 +8,7 @@ kubectl create secret generic db-user-pass --from-file=./username.txt --from-fil
 ```
 echo -n 'admin' | base64
 echo -n '1f2d1e2e67df' | base64
-echo 'MWYyZDFlMmU2N2Rm' | base64 --decode
+echo 'cGFzc3dvcmQ=' | base64 --decode
 
 ```
 
