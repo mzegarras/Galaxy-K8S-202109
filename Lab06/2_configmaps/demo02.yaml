@@ -5,9 +5,7 @@ metadata:
 spec:
   containers:
     - name: test-container
-      image: k8s.gcr.io/busybox
-      command: [ "/bin/sh", "-c", "env" ]
+      image: gcr.io/google-samples/node-hello:1.0
       envFrom:
       - configMapRef:
-          name: app-config
-  restartPolicy: Never
+          name: app-config-02

@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    # If the class annotation is not specified it defaults to "gce".
+    kubernetes.io/ingress.class: "gce"
+    cloud.google.com/backend-config: '{"default": "my-backendconfig"}'
+spec:
+  rules:
+  - host: "lab06apictacte.pe"
+    http:
+      paths:
+      - path: /accounts/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: lab06apictacte
+            port:
+              number: 37071
+      # - path: /v2
+      #   pathType: ImplementationSpecific
+      #   backend:
+      #     service:
+      #       name: lab06apictacte
+      #       port:
+      #         number: 37071
+  - host: "lab06apictactev2.pe"
+    http:
+      paths:
+      - path: /accounts/*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: lab06apictacte
+            port:
+              number: 37071      
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: my-backendconfig
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 8080
+    type: HTTP
+    requestPath: /actuator/health   
+    healthyThreshold: 1
+    unhealthyThreshold: 10
