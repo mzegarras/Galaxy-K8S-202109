@@ -24,7 +24,7 @@ spec:
   selector:
     matchLabels:
       app: lab06apictacte
-  replicas: 1
+  replicas: 3
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -60,7 +60,7 @@ spec:
           resources:
             limits:
               cpu: 500m
-              memory: 256Mi
+              memory: 512Mi
             requests:
               cpu: 100m
               memory: 128Mi

@@ -1,13 +1,12 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: lab06apictacte
-  namespace: default
+  name: lab06apictactehpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: lab06apictacte
-  minReplicas: 1
-  maxReplicas: 10
+    name: lab06apictactebus
+  minReplicas: 3
+  maxReplicas: 15
   targetCPUUtilizationPercentage: 50
